@@ -97,7 +97,6 @@ public class MyService extends Service {
         String Message = "มีบางเว็ปไซต์ของคุณได้เกิดการล้มเหลว";
 
         Intent intent = new Intent(this, MainActivity2Activity.class);
-        intent.putExtra("New", "New");
 
         PendingIntent activity = PendingIntent.getActivity(this, 0, intent, 0);
         notification.setLatestEventInfo(this, Title, Message, activity);
