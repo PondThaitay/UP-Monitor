@@ -2,6 +2,8 @@ package com.cm_smarthome.myservice;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -155,20 +157,28 @@ public class MainActivity2Activity extends ActionBarActivity {
             JSONObject jsonResponse = new JSONObject(jsonResult);
             JSONArray jsonMainNode = jsonResponse.optJSONArray("emp_info");
 
-            for (int i = 0; i < jsonMainNode.length(); i++) {
-                JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+            if (jsonMainNode.length() > 0) {
 
-                String Monitor_ID = jsonChildNode.optString("Monitor_ID");//Not Show
-                String Name_Site = jsonChildNode.optString("Name_Site");
-                String Name_url = jsonChildNode.optString("Name_url");
-                String Date = jsonChildNode.optString("Date");
-                String Flag = jsonChildNode.optString("flag");
+                for (int i = 0; i < jsonMainNode.length(); i++) {
+                    JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
 
-                Status = Flag;
+                    String Name_Site = jsonChildNode.optString("Name_Site");
+                    String Name_url = jsonChildNode.optString("Name_url");
+                    String Date = jsonChildNode.optString("Date");
 
-                String outPut = "ไอดี : " + Monitor_ID + "\n" + "ชื่อเว็ปไซต์ : " + Name_Site + "\n"
-                        + "URL : " + Name_url + "\n" + "เวลา : " + Date + "\n" + "สถานะ : ล้มเหลว"; //0 normal  1 Flase
-                employeeList.add(createEmployee("employees", outPut));
+
+                        if(Name_Site.equals("NULL")){
+                            String outPut = "ไม่มีเว็ปไซต์ที่ไม่สามารถติดต่อได้";
+                            employeeList.add(createEmployee("employees", outPut));
+
+                    }else {
+                        String outPut = "ชื่อเว็ปไซต์ : " + Name_Site + "\n" + "URL : " + Name_url + "\n"
+                                + "เวลา : " + Date + "\n" + "สถานะ : ไม่สามารถเข้าถึงได้"; //0 normal  1 Flase
+                        employeeList.add(createEmployee("employees", outPut));
+                    }
+                }
+            } else {
+                Toast.makeText(context, "ไม่มีเว็ปไซต์ล้มเหลว", Toast.LENGTH_SHORT).show();
             }
 
         } catch (JSONException e) {

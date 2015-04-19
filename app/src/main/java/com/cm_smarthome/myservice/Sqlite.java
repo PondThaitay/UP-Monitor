@@ -57,7 +57,7 @@ public class Sqlite extends SQLiteOpenHelper {
             Val.put("MemberID", "1");
             Val.put("Name", "them");
             Val.put("Status", "0");
-            Val.put("Flag", "0");
+            Val.put("Flag", "1");
 
             long rows = db.insert(TABLE_NAME, null, Val);
 

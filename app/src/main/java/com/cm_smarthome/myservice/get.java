@@ -31,17 +31,13 @@ import java.util.List;
  */
 public class get {
 
-    protected String x;
-    protected String x1;
-
     protected String statusLogin;
-    protected String Username;
-    protected Context context;
 
     private String jsonResult;
     private String url = "http://up-ictmonitor.info/checkapp.php";
 
     protected String Flag;
+    protected String ID;
 
     //CheckLogin
     public void CheckLogin(String username, String password) {
@@ -68,10 +64,10 @@ public class get {
     }
     //end CheckLogin
 
-    public void getS() {
-        String url = "http://www.cm-smarthome.com/android/status1.php";
+    public void update(String input) {
+        String url = "http://up-ictmonitor.info/updateapp.php";
         List<NameValuePair> params = new ArrayList<NameValuePair>();//คำอธิบายอยู่ด้านล่าง
-        params.add(new BasicNameValuePair("ID", "1"));//คำอธิบายอยู่ด้านล่าง
+        params.add(new BasicNameValuePair("monitor", input));//คำอธิบายอยู่ด้านล่าง
         String resultServer = getHttpPost(url, params);//คำอธิบายอยู่ด้านล่าง
 
         //ส่งไป PHP แล้ว PHP รับ $strWhere = $_POST["ID"]; เผื่อแอพต้อง login
@@ -81,33 +77,6 @@ public class get {
         JSONObject c;
         try {
             c = new JSONObject(resultServer);
-            x = c.getString("result");
-
-            Log.e("GET", x);
-
-
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    public void update() {
-        String url = "http://www.cm-smarthome.com/android/statusupdate.php";
-        List<NameValuePair> params = new ArrayList<NameValuePair>();//คำอธิบายอยู่ด้านล่าง
-        params.add(new BasicNameValuePair("ID", "1"));//คำอธิบายอยู่ด้านล่าง
-        String resultServer = getHttpPost(url, params);//คำอธิบายอยู่ด้านล่าง
-
-        //ส่งไป PHP แล้ว PHP รับ $strWhere = $_POST["ID"]; เผื่อแอพต้อง login
-        //เพื่อแจ้งเตือนระบุคนไปเลยแต่ถ้าไม่มีการระบุก็ มะต้องแก้ก่อได้ หื้อ มัน ส่งไป เฉยๆๆ มะ ได้ เอา ไป Query
-        //ถ้าต้องการแก้ แก้ Method getHttpPost ตวยเนอะ ฮาทำเผื่อคิงต้องการเฉยๆๆ
-
-        JSONObject c;
-        try {
-            c = new JSONObject(resultServer);
-            x1 = c.getString("StatusID");
-
-            Log.e("GET", x1);
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -174,16 +143,18 @@ public class get {
                 JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
 
                 Flag = jsonChildNode.optString("flag");
-
-
+                ID = jsonChildNode.optString("Monitor_ID");
             }
             String Username = username;
             Log.e("Username", Username);
             Log.e("Flag", Flag);
+            Log.e("ID", ID);
+
 
         } catch (JSONException e) {
-            Log.e("Error 2", e.toString());
+            Log.e("Error 2.1", e.toString());
         }
+
 
     }
 

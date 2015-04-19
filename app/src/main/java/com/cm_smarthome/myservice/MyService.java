@@ -45,18 +45,19 @@ public class MyService extends Service {
                     }
 
                     if (isRunning) {
-                        g1.getS();
-                        String XD = g1.x;
 
                         String arrData[] = mySqlite.SelectData("1");
                         String Username = arrData[1];
 
                         g1.C(Username);
                         String STATUS = g1.Flag;
+                        String ID = g1.ID;
 
                         if (STATUS.equals("1")) {
                             createNotification();
-                            //g1.update();
+                            g1.update(ID);
+                        } else {
+                            Log.e("GG", "F");
                         }
                         Log.i(TAG, "Service running" + mX);
                     }

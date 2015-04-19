@@ -14,15 +14,16 @@
         android:text="รายละเอียดเว็ปไซต์ที่ล้มเหลวของ"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
+        android:textColor="#ffa984bb"
         android:textSize="20dp"
         android:id="@+id/textView2" />
 
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
+        android:textColor="#ffa984bb"
         android:textSize="20dp"
         android:id="@+id/Username" />
+
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
