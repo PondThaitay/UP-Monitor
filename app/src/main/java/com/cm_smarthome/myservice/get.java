@@ -1,6 +1,5 @@
 package com.cm_smarthome.myservice;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -66,13 +65,9 @@ public class get {
 
     public void update(String input) {
         String url = "http://up-ictmonitor.info/updateapp.php";
-        List<NameValuePair> params = new ArrayList<NameValuePair>();//คำอธิบายอยู่ด้านล่าง
-        params.add(new BasicNameValuePair("monitor", input));//คำอธิบายอยู่ด้านล่าง
-        String resultServer = getHttpPost(url, params);//คำอธิบายอยู่ด้านล่าง
-
-        //ส่งไป PHP แล้ว PHP รับ $strWhere = $_POST["ID"]; เผื่อแอพต้อง login
-        //เพื่อแจ้งเตือนระบุคนไปเลยแต่ถ้าไม่มีการระบุก็ มะต้องแก้ก่อได้ หื้อ มัน ส่งไป เฉยๆๆ มะ ได้ เอา ไป Query
-        //ถ้าต้องการแก้ แก้ Method getHttpPost ตวยเนอะ ฮาทำเผื่อคิงต้องการเฉยๆๆ
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("monitor", input));
+        String resultServer = getHttpPost(url, params);
 
         JSONObject c;
         try {
@@ -150,12 +145,9 @@ public class get {
             Log.e("Flag", Flag);
             Log.e("ID", ID);
 
-
         } catch (JSONException e) {
             Log.e("Error 2.1", e.toString());
         }
-
-
     }
 
     private StringBuilder inputStreamToString(InputStream is) {

@@ -18,6 +18,8 @@ public class MyService extends Service {
     private static final String TAG = "HelloService";
 
     protected boolean isRunning = false;
+    private String Username;
+    private String arrData[];
 
     @Override
     public void onCreate() {
@@ -31,13 +33,10 @@ public class MyService extends Service {
 
         Log.i(TAG, "Service onStartCommand");
 
-        //Creating new thread for my service
-        //Always write your long running tasks in a separate thread, to avoid ANR
         new Thread(new Runnable() {
             @Override
             public void run() {
-                //Your logic that service will perform will be placed here
-                //In this example we are just looping and waits for 1000 milliseconds in each loop.
+
                 while (isRunning != false) {
                     try {
                         Thread.sleep(1000);
@@ -46,19 +45,43 @@ public class MyService extends Service {
 
                     if (isRunning) {
 
-                        String arrData[] = mySqlite.SelectData("1");
-                        String Username = arrData[1];
+                        try {
 
-                        g1.C(Username);
-                        String STATUS = g1.Flag;
-                        String ID = g1.ID;
+                            Thread.sleep(100);
+                            arrData = mySqlite.SelectData("1");
+                            Username = arrData[1];
 
-                        if (STATUS.equals("1")) {
-                            createNotification();
-                            g1.update(ID);
-                        } else {
-                            Log.e("GG", "F");
+                            if (Username.equals(null)) {
+                                arrData = mySqlite.SelectData("1");
+                                Username = arrData[1];
+
+                                g1.C(Username);
+                                String STATUS = g1.Flag;
+                                String ID = g1.ID;
+
+                                if (STATUS.equals("1")) {
+                                    createNotification();
+                                    g1.update(ID);
+                                } else {
+                                    Log.e("GG", "F");
+                                }
+                            } else {
+                                g1.C(Username);
+                                String STATUS = g1.Flag;
+                                String ID = g1.ID;
+
+                                if (STATUS.equals("1")) {
+                                    createNotification();
+                                    g1.update(ID);
+                                } else {
+                                    Log.e("GG", "F");
+                                }
+                            }
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
+
                         Log.i(TAG, "Service running" + mX);
                     }
                 }
@@ -97,7 +120,7 @@ public class MyService extends Service {
         String Title = "ข้อความใหม่! จาก UP-Monitor";
         String Message = "มีบางเว็ปไซต์ของคุณได้เกิดการล้มเหลว";
 
-        Intent intent = new Intent(this, MainActivity2Activity.class);
+        Intent intent = new Intent(this, MainActivity.class);
 
         PendingIntent activity = PendingIntent.getActivity(this, 0, intent, 0);
         notification.setLatestEventInfo(this, Title, Message, activity);
