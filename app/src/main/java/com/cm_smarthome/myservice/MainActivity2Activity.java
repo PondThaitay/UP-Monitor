@@ -39,6 +39,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.support.v4.widget.SwipeRefreshLayout;
+
 
 public class MainActivity2Activity extends ActionBarActivity {
 
@@ -58,6 +60,8 @@ public class MainActivity2Activity extends ActionBarActivity {
     private String Status;
 
     private ListView listView;
+    
+    private SwipeRefreshLayout swipeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,23 @@ public class MainActivity2Activity extends ActionBarActivity {
         accessWebService();
         Intent intent = new Intent(MainActivity2Activity.this, MyService.class);
         startService(intent);
+        
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+
+        swipeLayout.setColorScheme(android.R.color.holo_blue_dark,android.R.color.holo_blue_light);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeLayout.setRefreshing(false);
+                        accessWebService();
+                        Toast.makeText(getBaseContext(), "อัพเดทข้อมูลสำเร็จแล้ว", Toast.LENGTH_SHORT).show();
+                    }
+                }, 5000);
+            }
+        });
 
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
