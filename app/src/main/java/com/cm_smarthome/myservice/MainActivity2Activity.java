@@ -90,7 +90,7 @@ public class MainActivity2Activity extends ActionBarActivity {
                         accessWebService();
                         Toast.makeText(getBaseContext(), "อัพเดทข้อมูลสำเร็จแล้ว", Toast.LENGTH_SHORT).show();
                     }
-                }, 5000);
+                }, 3000);
             }
         });
 
