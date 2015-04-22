@@ -2,13 +2,11 @@ package com.cm_smarthome.myservice;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
-import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -59,6 +57,8 @@ public class MainActivity2Activity extends ActionBarActivity {
 
     private ListView listView;
 
+    SwipeRefreshLayout swipeLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +71,23 @@ public class MainActivity2Activity extends ActionBarActivity {
         tvUsername = (TextView) findViewById(R.id.Username);
 
         String arrData[] = mySqlite.SelectData("1");
+
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout.setColorScheme(android.R.color.holo_blue_dark,
+                android.R.color.holo_blue_light);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeLayout.setRefreshing(false);
+                        accessWebService();
+                        Toast.makeText(getBaseContext(), "อัพเดทข้อมูลเวลาสำเร็จแล้ว", Toast.LENGTH_SHORT).show();
+                    }
+                }, 3000);
+            }
+        });
 
         Username = arrData[1];
         tvUsername.setText("คุณ : " + Username);
