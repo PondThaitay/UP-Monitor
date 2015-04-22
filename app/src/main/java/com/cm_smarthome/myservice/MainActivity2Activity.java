@@ -37,8 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-
 
 public class MainActivity2Activity extends ActionBarActivity {
 
@@ -55,11 +53,8 @@ public class MainActivity2Activity extends ActionBarActivity {
     private String jsonResult;
     private String url = "http://up-ictmonitor.info/checkapp.php";
     private String Username;
-    private String Status;
 
     private ListView listView;
-    
-    private SwipeRefreshLayout swipeLayout;
 
     SwipeRefreshLayout swipeLayout;
 
@@ -76,32 +71,15 @@ public class MainActivity2Activity extends ActionBarActivity {
 
         String arrData[] = mySqlite.SelectData("1");
 
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-        swipeLayout.setColorScheme(android.R.color.holo_blue_dark,
-                android.R.color.holo_blue_light);
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeLayout.setRefreshing(false);
-                        accessWebService();
-                        Toast.makeText(getBaseContext(), "อัพเดทข้อมูลเวลาสำเร็จแล้ว", Toast.LENGTH_SHORT).show();
-                    }
-                }, 3000);
-            }
-        });
-
         Username = arrData[1];
         tvUsername.setText("คุณ : " + Username);
         accessWebService();
         Intent intent = new Intent(MainActivity2Activity.this, MyService.class);
         startService(intent);
-        
+
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
 
-        swipeLayout.setColorScheme(android.R.color.holo_blue_dark,android.R.color.holo_blue_light);
+        swipeLayout.setColorScheme(android.R.color.holo_blue_dark, android.R.color.holo_blue_light);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -205,11 +183,11 @@ public class MainActivity2Activity extends ActionBarActivity {
                     String Date = jsonChildNode.optString("Date");
 
 
-                        if(Name_Site.equals("NULL")){
-                            String outPut = "ไม่มีเว็ปไซต์ที่ไม่สามารถติดต่อได้";
-                            employeeList.add(createEmployee("employees", outPut));
+                    if (Name_Site.equals("NULL")) {
+                        String outPut = "ไม่มีเว็ปไซต์ที่ไม่สามารถติดต่อได้";
+                        employeeList.add(createEmployee("employees", outPut));
 
-                    }else {
+                    } else {
                         String outPut = "ชื่อเว็ปไซต์ : " + Name_Site + "\n" + "URL : " + Name_url + "\n"
                                 + "เวลา : " + Date + "\n" + "สถานะ : ไม่สามารถเข้าถึงได้"; //0 normal  1 Flase
                         employeeList.add(createEmployee("employees", outPut));
